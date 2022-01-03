@@ -4,13 +4,12 @@ module.exports = {
     node: true,
   },
   extends: [
-    'eslint:recommended',
-    'airbnb',
-    'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended',
+    'airbnb-base',
+    'airbnb-typescript/base',
   ],
   parserOptions: {
     ecmaVersion: 2020,
+    project: './tsconfig.json',
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
