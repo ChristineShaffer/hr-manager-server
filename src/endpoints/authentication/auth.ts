@@ -14,7 +14,7 @@ const router: Router = express.Router();
  * @returns {{ authenticated: boolean, userType: null|'manager'|'employee' }} The authentication
  *  status and user type if authentication was successful.
  */
-export default router.post('/', async (request: Request, response: Response) => {
+export default router.get('/', async (request: Request, response: Response) => {
   const dbInstance = await db.getInstance();
 
   if (typeof request.body.username !== 'string') {

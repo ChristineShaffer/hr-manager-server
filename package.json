@@ -5,9 +5,10 @@
   "scripts": {
     "start": "tsc && node dist/app.js",
     "build": "tsc -p tsconfig.build.json",
-    "test": "tsc & mocha dist/**/*.test.js"
+    "test": "tsc && mocha dist/**/*.test.js"
   },
   "dependencies": {
+    "axios": "^0.24.0",
     "bcrypt": "^5.0.1",
     "core-js": "^3.6.5",
     "dotenv": "^10.0.0",

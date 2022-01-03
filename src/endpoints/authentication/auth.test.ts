@@ -1,20 +1,15 @@
-import chai from 'chai';
+import chai, { assert } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../app';
 
-// Configure chai
 chai.use(chaiHttp);
-chai.should();
 
-describe('/authentication', () => {
-  it('should alert when username is not a string', (done) => {
-    chai.request(app).post('/authentication').type('json')
-      .send({ username: 'derp', password: 'abc123' })
-      .end((err, res) => {
-        res.should.have.status(200);
-        // res.body.should.be.a('object');
-        // res.body.should.equal({ authenticated: false, userType: null });
-        done();
-      });
+describe('/authenticate', () => {
+  it('should alert when username is not a string', async () => {
+    // TODO
+    const res = await chai.request(app).get('/authenticate').send({ password: 'abc123' });
+    console.log(res.body);
+    assert.equal(res.status, 400, 'status is not 400');
+    // assert.isFalse(res.body.authenticated, 'authenticated inappropriately');
   });
 });
