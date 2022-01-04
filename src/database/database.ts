@@ -1,5 +1,6 @@
 import { Pool, PoolConfig } from 'pg';
 import * as dotenv from 'dotenv';
+import bcrypt from 'bcrypt';
 import { createUserTableSQL } from './tables';
 
 dotenv.config();
@@ -8,7 +9,7 @@ dotenv.config();
  * Class which manages shared database pool.
  */
 class Database {
-  readonly pool: Pool
+  readonly pool: Pool;
 
   /**
    * Creates a new Postgres database pool if the appropriate environment variables are set.
@@ -37,9 +38,27 @@ class Database {
   public async initialize(): Promise<void> {
     try {
       await this.pool.query(createUserTableSQL);
+      await this.populateDefaultData();
     } catch (err) {
       console.error(`Error initializing database: ${err}`);
     }
+  }
+
+  /**
+   * Populates default manager and employee users.
+   * @throws If there is an error inserting the two default users.
+   * @private
+   */
+  private async populateDefaultData(): Promise<void> {
+    const managerHash: string = await bcrypt.hash('Abc123', 10);
+    await this.pool.query(
+      `INSERT INTO users VALUES ('managerUser', '${managerHash}', 'manager') ON CONFLICT DO NOTHING`,
+    );
+
+    const employeeHash: string = await bcrypt.hash('Def456', 10);
+    await this.pool.query(
+      `INSERT INTO users VALUES ('employeeUser', '${employeeHash}', 'employee') ON CONFLICT DO NOTHING`,
+    );
   }
 }
 

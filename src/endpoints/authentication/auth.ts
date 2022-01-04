@@ -18,12 +18,12 @@ export default router.get('/', async (request: Request, response: Response) => {
   const dbInstance = await db.getInstance();
 
   if (typeof request.body.username !== 'string') {
-    response.status(400).send('Username must be a string.');
+    response.status(400).send({ error: 'Username must be a string.' });
     return;
   }
 
   if (typeof request.body.password !== 'string') {
-    response.status(400).send('Password must be a string.');
+    response.status(400).send({ error: 'Password must be a string.' });
     return;
   }
 
@@ -39,7 +39,15 @@ export default router.get('/', async (request: Request, response: Response) => {
 
   const user: UserTable = result.rows[0];
 
-  const match = await bcrypt.compare(request.body.password, user.passwordHash);
+  let match: boolean = false;
+  try {
+    // Check the password matches
+    match = bcrypt.compareSync(request.body.password, user.password);
+  } catch (err) {
+    console.error(`Error comparing password: ${err}`);
+    response.status(500).end();
+    return;
+  }
 
   if (match) {
     // Authentication successful
