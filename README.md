@@ -13,7 +13,7 @@ This provides the REST API functionality for the [HR Manager Project](https://gi
 
 - You can ping the authentication endpoint by using something like
   ```shell
-  curl --header "Content-Type: application/json" --request GET --data '{"email":"derp@example.com", "password":"abc123"}' http://localhost:3000/authenticate
+  curl --header "Content-Type: application/json" --request GET --data '{"email":"manager@example.com", "password":"Abc123"}' http://localhost:3000/authenticate
   ```
 - There are two test users created whenever the server starts up:
 

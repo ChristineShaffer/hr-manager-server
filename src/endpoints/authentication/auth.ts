@@ -40,7 +40,7 @@ export default router.get('/', async (request: Request, response: Response) => {
 
   // User does not exist noop
   if (!result.rows.length) {
-    response.status(200).json({ authenticated: false, userType: null });
+    response.status(400).send({ error: 'User does not exist.' });
     return;
   }
 
@@ -57,10 +57,10 @@ export default router.get('/', async (request: Request, response: Response) => {
   }
 
   if (match) {
-    // Authentication successful
-    response.status(200).json({ authenticated: true, userType: user.type });
+    // Authentication successful, redirect to user-specific landing page
+    response.redirect(`/${user.type}`);
     return;
   }
 
-  response.status(200).json({ authenticated: false, userType: null });
+  response.status(400).send({ error: 'Password does not match expected.' });
 });
