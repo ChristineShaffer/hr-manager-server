@@ -9,9 +9,15 @@ This provides the REST API functionality for the [HR Manager Project](https://gi
 
 2. Run the project using `npm run start`.
 
-### Helpful Commands
+### Notes
 
 - You can ping the authentication endpoint by using something like
   ```shell
-  curl --header "Content-Type: application/json" --request POST --data '{"username":"derp", "password":"abc123"}' http://localhost:3000/authenticate
+  curl --header "Content-Type: application/json" --request GET --data '{"email":"derp@example.com", "password":"abc123"}' http://localhost:3000/authenticate
   ```
+- There are two test users created whenever the server starts up:
+
+  | Email | Password |
+  | ----------- | ----------- |
+  | manager@example.com | Abc123 |
+  | employee@example.com | Def456 |

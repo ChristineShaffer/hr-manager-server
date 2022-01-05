@@ -1,5 +1,6 @@
 import express, { Express, Request, Response } from 'express';
 import authenticate from './endpoints/authentication/auth';
+import db from './database/database';
 
 const app: Express = express();
 const port = 3000;
@@ -14,6 +15,15 @@ app.get('/', (request: Request, response: Response) => {
 
 // The authentication route, used for verifying user login credentials and user type
 app.use('/authenticate', authenticate);
+
+// Initialize the db with default data
+(async () => {
+  try {
+    await db.getInstance();
+  } catch (err) {
+    console.error('Could not initialize test users in database.');
+  }
+})();
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}.`);

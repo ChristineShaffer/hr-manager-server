@@ -52,12 +52,12 @@ class Database {
   private async populateDefaultData(): Promise<void> {
     const managerHash: string = await bcrypt.hash('Abc123', 10);
     await this.pool.query(
-      `INSERT INTO users VALUES ('managerUser', '${managerHash}', 'manager') ON CONFLICT DO NOTHING`,
+      `INSERT INTO users VALUES ('manager@example.com', '${managerHash}', 'manager') ON CONFLICT DO NOTHING`,
     );
 
     const employeeHash: string = await bcrypt.hash('Def456', 10);
     await this.pool.query(
-      `INSERT INTO users VALUES ('employeeUser', '${employeeHash}', 'employee') ON CONFLICT DO NOTHING`,
+      `INSERT INTO users VALUES ('employee@example.com', '${employeeHash}', 'employee') ON CONFLICT DO NOTHING`,
     );
   }
 }

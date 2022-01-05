@@ -9,16 +9,23 @@ const router: Router = express.Router();
 /**
  * Authentication route which verifies the provided user credentials against the Postgres db and
  * returns the user type if authenticated.
- * @param request.body.username {string} - The username of the user trying to authenticate.
+ * @param request.body.email {string} - The email address of the user trying to authenticate.
  * @param request.body.password {String} - The password of the user trying to authenticate.
  * @returns {{ authenticated: boolean, userType: null|'manager'|'employee' }} The authentication
  *  status and user type if authentication was successful.
  */
 export default router.get('/', async (request: Request, response: Response) => {
-  const dbInstance = await db.getInstance();
+  let dbInstance;
+  try {
+    dbInstance = await db.getInstance();
+  } catch (err) {
+    console.error(`Error getting database instance: ${err}`);
+    response.status(500).end();
+    return;
+  }
 
-  if (typeof request.body.username !== 'string') {
-    response.status(400).send({ error: 'Username must be a string.' });
+  if (typeof request.body.email !== 'string') {
+    response.status(400).send({ error: 'Email must be a string.' });
     return;
   }
 
@@ -28,7 +35,7 @@ export default router.get('/', async (request: Request, response: Response) => {
   }
 
   const result: QueryResult<UserTable> = await dbInstance.pool.query(
-    `SELECT * FROM users WHERE username='${request.body.username}'`,
+    `SELECT * FROM users WHERE email='${request.body.email}'`,
   );
 
   // User does not exist noop
