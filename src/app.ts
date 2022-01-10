@@ -1,4 +1,5 @@
 import express, { Express, Request, Response } from 'express';
+import cors from 'cors';
 import authenticate from './endpoints/authentication/auth';
 import db from './database/database';
 
@@ -7,6 +8,11 @@ const port = 3000;
 
 // Add JSON parsing middleware
 app.use(express.json());
+
+app.use(cors({
+  origin: 'http://localhost:8080',
+  optionsSuccessStatus: 200,
+}));
 
 // Default route just indicates the server is up
 app.get('/', (request: Request, response: Response) => {

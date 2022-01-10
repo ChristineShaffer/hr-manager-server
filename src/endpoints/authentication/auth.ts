@@ -14,7 +14,7 @@ const router: Router = express.Router();
  * @returns {{ authenticated: boolean, userType: null|'manager'|'employee' }} The authentication
  *  status and user type if authentication was successful.
  */
-export default router.get('/', async (request: Request, response: Response) => {
+export default router.post('/', async (request: Request, response: Response) => {
   let dbInstance;
   try {
     dbInstance = await db.getInstance();
@@ -25,12 +25,12 @@ export default router.get('/', async (request: Request, response: Response) => {
   }
 
   if (typeof request.body.email !== 'string') {
-    response.status(400).send({ error: 'Email must be a string.' });
+    response.status(400).json({ message: 'Email must be a string.' });
     return;
   }
 
   if (typeof request.body.password !== 'string') {
-    response.status(400).send({ error: 'Password must be a string.' });
+    response.status(400).json({ message: 'Password must be a string.' });
     return;
   }
 
@@ -40,7 +40,7 @@ export default router.get('/', async (request: Request, response: Response) => {
 
   // User does not exist noop
   if (!result.rows.length) {
-    response.status(400).send({ error: 'User does not exist.' });
+    response.status(400).json({ message: 'User does not exist.' });
     return;
   }
 
@@ -58,9 +58,10 @@ export default router.get('/', async (request: Request, response: Response) => {
 
   if (match) {
     // Authentication successful, redirect to user-specific landing page
-    response.redirect(`/${user.type}`);
+    // response.redirect(`/${user.type}`);
+    response.status(200).json({ userType: user.type });
     return;
   }
 
-  response.status(400).send({ error: 'Password does not match expected.' });
+  response.status(400).json({ message: 'Password does not match expected.' });
 });
