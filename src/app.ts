@@ -10,8 +10,9 @@ const port = 3000;
 app.use(express.json());
 
 app.use(cors({
-  origin: 'http://localhost:8080',
+  origin: process.env.CLIENT_URL,
   optionsSuccessStatus: 200,
+  credentials: true,
 }));
 
 // Default route just indicates the server is up

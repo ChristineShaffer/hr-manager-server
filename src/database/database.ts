@@ -16,14 +16,14 @@ class Database {
    * @throws If any of the required environment variables aren't set.
    */
   constructor() {
-    if (!process.env.POSTGRES_USER || !process.env.HOST || !process.env.POSTGRES_DB
+    if (!process.env.POSTGRES_USER || !process.env.POSTGRES_HOST || !process.env.POSTGRES_DB
       || !process.env.POSTGRES_PASSWORD || !process.env.POSTGRES_PORT) {
       throw new Error('Error initializing database; ensure environment variables are set.');
     }
 
     const config: PoolConfig = {
       user: process.env.POSTGRES_USER,
-      host: process.env.HOST,
+      host: process.env.POSTGRES_HOST,
       database: process.env.POSTGRES_DB,
       password: process.env.POSTGRES_PASSWORD,
       port: parseInt(process.env.POSTGRES_PORT, 10),

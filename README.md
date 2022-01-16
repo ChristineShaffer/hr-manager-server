@@ -7,7 +7,18 @@ This provides the REST API functionality for the [HR Manager Project](https://gi
 1. Run Postgres locally in a Docker container by running `./local-postgres.sh` in the project directory.
 
 
-2. Run the project using `npm run start`.
+2. Configure the `.env` file with the following environment variables:
+   ```
+   POSTGRES_DB=hrdb
+   POSTGRES_USER=admin
+   POSTGRES_PASSWORD=admin
+   POSTGRES_PORT=5432
+   POSTGRES_HOST=localhost // The postgres host; would be host.docker.internal when running this project containerized
+   CLIENT_URL=http://localhost:8080 // URL where the client is being served without a '/' at the end
+   ```
+
+
+3. Run the project using `npm run start`.
 
 ### Notes
 
